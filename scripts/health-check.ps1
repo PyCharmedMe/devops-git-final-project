@@ -1,12 +1,29 @@
-$ConfigFile = "config/app.conf"
+$AppConfig = "config/app.conf"
+$MonitoringConfig = "config/monitoring.conf"
 
 Write-Host "Running application health check..."
 
-if (Test-Path $ConfigFile) {
-    Write-Host "Application configuration found."
-    Write-Host "Health check completed successfully."
-    exit 0
+$MissingFiles = @()
+
+if (-not (Test-Path $AppConfig)) {
+    $MissingFiles += $AppConfig
 }
 
-Write-Host "Application configuration was not found."
-exit 1
+if (-not (Test-Path $MonitoringConfig)) {
+    $MissingFiles += $MonitoringConfig
+}
+
+if ($MissingFiles.Count -gt 0) {
+    Write-Host "Health check failed."
+    Write-Host "Missing required configuration files:"
+
+    foreach ($File in $MissingFiles) {
+        Write-Host " - $File"
+    }
+
+    exit 1
+}
+
+Write-Host "Required configuration files found."
+Write-Host "Health check completed successfully."
+exit 0
