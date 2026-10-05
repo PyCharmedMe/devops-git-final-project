@@ -13,8 +13,8 @@ The production environment should use the following baseline settings.
 ### Monitoring
 
 - Check interval: 30 seconds
-- Timeout: 5 seconds
-- Retry count: 3
+- Timeout: 10 seconds
+- Retry count: 5
 - Alert threshold: 80 percent
 
 ### Logging
